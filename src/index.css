@@ -2,3 +2,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        @apply text-[#0b1e5b]
+    }
+}
+
+@font-face {
+    font-family: 'Museo-Slab';
+    src: url("../public/fonts/museo-slab/Museo_Slab_500.otf");
+  }
+

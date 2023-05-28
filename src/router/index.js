@@ -6,7 +6,8 @@ const Register = () => import('../app/modules/auth/views/Register.vue');
 const Login = () => import('../app/modules/auth/views/Login.vue');
 const TaskList = () => import('../app/modules/task/views/List.vue');
 const TaskEdit = () => import('../app/modules/task/views/Edit.vue');
-const TaskBaseLayout = () => import('../app/modules/task/views/TaskBaseLayout.vue');
+const BaseLayout = () => import('../app/common/layouts/base-layout.vue');
+const LandingPage = () => import('../app/pages/landing.vue');
 
 const router = VueRouter.createRouter({
     ///base: '/',
@@ -14,23 +15,17 @@ const router = VueRouter.createRouter({
     routes: [
         {
             path: '/',
-            redirect: { name: 'TasksBaseLayout'}
+            redirect: { name: 'BaseLayout'}
         },
         {
             path: '/home',
-            name: 'TasksBaseLayout',
-            component: TaskBaseLayout,
-            //redirect: { name: 'tasks.index'},
+            name: 'BaseLayout',
+            component: BaseLayout,
             children: [
                 {
-                    path: '/tasks',
-                    name: 'tasks.index',
-                    component: TaskList
-                },
-                {
-                    path: '/tasks/:id',
-                    name: 'tasks.edit',
-                    component: TaskEdit
+                    path: '',
+                    name: 'landing',
+                    component: LandingPage
                 },
             ]
         },

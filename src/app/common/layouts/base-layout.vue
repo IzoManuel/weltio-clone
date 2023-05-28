@@ -1,15 +1,15 @@
+<script setup>
+import MainLayout from "./main-layout.vue";
+
+</script>
+    
 <template>
   <main-layout>
     <template #mainContent>
-      <router-view/>
+      <router-view />
     </template>
   </main-layout>
-
 </template>
-
-<script setup>
-import MainLayout from '../../../common/layouts/main-layout.vue';
-</script>
 
 <style scoped>
 </style>

@@ -402,6 +402,8 @@
 </template>
 
 <script>
+import axios from "../../../common/helpers/axios/axios.js";
+
 import {
   TransitionRoot,
   TransitionChild,
@@ -451,7 +453,7 @@ export default {
   },
   methods: {
     getTask() {
-      this.axios
+      axios
         .get(`/task/tasks/${this.$route.params.id}`)
         .then((response) => {
           let data = response.data.data;
@@ -466,7 +468,7 @@ export default {
     },
 
     getStatuses() {
-      this.axios
+      axios
         .get(`/status/statuses`)
         .then((response) => {
           this.statuses = response.data.data;
@@ -478,7 +480,7 @@ export default {
 
     getAssignees() {
       this.tableLoader = true;
-      this.axios
+      axios
         .get(`/task/tasks/${this.$route.params.id}/assignees`)
         .then((response) => {
           this.assignees = response.data.data;
@@ -491,7 +493,7 @@ export default {
     updateTask() {
       this.taskEditLoader = true;
       let { name, description, dueDate, statusId } = this.task;
-      this.axios
+      axios
         .post(`/task/tasks/${this.$route.params.id}`, {
           name,
           description,
@@ -514,7 +516,7 @@ export default {
       this.taskEditLoader = true;
       let { userId, dueDate, startTime, endTime, remarks, statusId } =
         this.taskUser;
-      this.axios
+      axios
         .post(`/task/tasks/${this.$route.params.id}/updateassigned`, {
           userId,
           dueDate,
@@ -532,7 +534,7 @@ export default {
     },
 
     getUsers() {
-      this.axios
+      axios
         .get("user/users", {
           params: {
             page: this.page,
@@ -548,7 +550,7 @@ export default {
 
     assignTask() {
       this.assignLoader = true;
-      this.axios
+      axios
         .post(`/task/tasks/${this.$route.params.id}/assign`, {
           userId: this.assignedUser,
         })
@@ -563,7 +565,7 @@ export default {
 
     unassign(userId) {
       this.tableLoader = true;
-      this.axios
+      axios
         .post(`/task/tasks/${this.$route.params.id}/unassign`, {
           userId: userId,
         })

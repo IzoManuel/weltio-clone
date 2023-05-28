@@ -1,9 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  content: [],
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
   theme: {
-    extend: {},
+    container: {
+      center: true,
+      // default breakpoints but with 40px removed
+      // screens: {
+      //   xs: '375px'
+      // },
+    },
+    extend: {
+      fontFamily: {
+        museo: ['Museo-Slab']
+      }
+    },
   },
   plugins: [],
 }

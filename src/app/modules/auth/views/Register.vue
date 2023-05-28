@@ -1,127 +1,120 @@
 <template>
-    <section class="bg-gray-50 dark:bg-gray-900">
+  <AuthLayout>
+    <template #authForm>
       <div
-        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0"
       >
-        <div
-          class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
-        >
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1
-              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-            >
-              Sign up
-            </h1>
-            <form class="space-y-4 md:space-y-6">
-              <div>
-                <label
-                  for="email"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Your email</label
-                >
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  required=""
-                  v-model="credentials.email"
-                />
-                <div
-                  class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                  role="alert"
-                  v-if="formError.errors?.email"
-                >
-                  <span class="block sm:inline">{{
-                    formError.errors?.email[0]
-                  }}</span>
-                  <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                  </span>
-                </div>
-              </div>
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <h1
+            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+          >
+            Sign up
+          </h1>
 
-              <div>
-                <label
-                  for="password"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Password</label
-                >
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
-                  v-model="credentials.password"
-                />
-                <div
-                  class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
-                  role="alert"
-                  v-if="formError.errors?.password"
-                >
-                  <span class="block sm:inline">{{
-                    formError.errors.password[0]
-                  }}</span>
-                  <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                  </span>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-start"></div>
-              </div>
-              <button
-                @click="register"
-                type="button"
-                :disabled="loader"
-                :class="{'cursor-wait':loader }"
-                class="flex items-center place-content-center w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                <spinner :height="'h-5'" :width="'w-5'" :fill="'fill-white'"  v-if="loader"></spinner>
-                Sign up
-              </button>
-              <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?
-                <router-link
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  :to="{ name: 'login' }"
-                >
-                  Sign in</router-link
-                >
-              </p>
-            </form>
+          <div
+            class="mt-2 bg-red-100 border border-red-400 text-red-700 px-4 py-1 text-xs rounded relative"
+            role="alert"
+            v-if="validationError?.combError"
+          >
+            <span class="block sm:inline">{{ validationError.combError[0] }}</span>
+            <span class="absolute top-0 bottom-0 right-0 px-4 py-3"> </span>
           </div>
+          <form class="space-y-4 md:space-y-6">
+            <form-input
+              :id="'email'"
+              :label="'Email'"
+              :placeholder="'doe@gmail.com'"
+              :type="'email'"
+              v-model="credentials.email"
+              :error-message="validationError?.email ? validationError.email[0] : ''"
+            >
+            </form-input>
+            <form-input
+              :id="'password'"
+              :label="'Password'"
+              :placeholder="'*******'"
+              :type="'password'"
+              v-model="credentials.password"
+              :error-message="validationError?.password ? validationError.password[0] : ''"
+            >
+            </form-input>
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input
+                  id="remember"
+                  aria-describedby="remember"
+                  name="remember"
+                  type="checkbox"
+                  class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300"
+                  required
+                />
+              </div>
+              <div class="ml-3 text-sm">
+                <label
+                  for="remember"
+                  class="font-medium text-gray-900 dark:text-white"
+                  >Remember me</label
+                >
+              </div>
+              <a
+                class="ml-auto text-sm text-primary-700 hover:underline dark:text-primary-500"
+                >Lost Password?</a
+              >
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-start"></div>
+            </div>
+            <button
+              @click="register"
+              type="button"
+              :disabled="loader"
+              :class="{ 'cursor-wait': loader }"
+              class="flex items-center place-content-center w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              <spinner
+                :height="'h-5'"
+                :width="'w-5'"
+                :fill="'fill-white'"
+                v-if="loader"
+              ></spinner>
+              Sign up
+            </button>
+            <p class="text-sm font-light text-gray-500">
+              Already have an account?
+              <router-link
+                class="font-medium text-primary-600 hover:underline"
+                :to="{ name: 'login' }"
+              >
+                Sign in</router-link
+              >
+            </p>
+          </form>
         </div>
       </div>
-    </section>
+    </template>
+  </AuthLayout>
 </template>
-
-<script>
+  
+  <script setup>
+import { ref } from 'vue'
+import axios from '../../../common/helpers/axios/axios.js'
 import Spinner from "../../../../assets/icons/Spinner.vue";
+import AuthLayout from "../components/AuthLayout.vue";
+import FormInput from "../../../components/form-input.vue";
 
-export default {
-  name: "register",
-  components: { Spinner },
-  data() {
-    return {
-      credentials: {
-        email: "a@example.com",
-        password: "12345678",
-      },
-      formError: {
-        errors: {},
-      },
-      loader: false
-    };
-  },
+// reactive state
+const credentials = ref({
+  email: 'a@gmail.com',
+  password: '123'
+});
+const validationError = ref({});
+const loader = ref(false)
 
-  methods: {
-    register() {
-      this.loader = true;
-
-      this.axios
-        .post("/register", this.credentials)
+// functions that mutate state and trigger updates
+function register() {
+      loader.value = true;
+      axios
+        .post("/register", credentials.value)
         .then((response) => {
           let token = response.data.data.token;
           let email = response.data.email;
@@ -134,12 +127,12 @@ export default {
         .catch((err) => {
           if (err.response) {
             if (err.response.data.errors !== undefined) {
-              this.formError.errors = err.response.data.errors;
+              validationError.value = err.response.data.errors;
             }
           }
         })
-        .finally(() => this.loader = false);
-    },
-  },
-};
+        .finally(() => (loader.value = false));
+    }
+
 </script>
+  
