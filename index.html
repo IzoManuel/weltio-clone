@@ -1,20 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue</title>
-    <style>
-      body {
-        background-color: #f7f8f2;
-      }
-      </style>
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-  </body>
+<html lang="en" class="">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + Vue</title>
+  <style>
+    :root {
+      --body-background: #f7f8f2
+    }
+
+    .no-scroll {
+      height: 100%;
+      overflow-y: hidden;
+    }
+
+    html,
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .change-background {
+      background-color: var(--body-background);
+      transition: background-color 1s linear;
+    }
+
+    /* body {
+      background-color: var(--body-background);
+    } */
+  </style>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+</head>
+
+<body class="change-background">
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+</body>
+
 </html>

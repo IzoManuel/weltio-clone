@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import Tvbox from "../../assets/tvbox.vue";
 import Chart from "../../assets/chart.vue";
 import WeltioLogo from "../../assets/weltio-logo.vue";
@@ -11,26 +11,29 @@ import ActionButton from "../components/action-button.vue";
 import FeatureSection from "../common/layouts/feature-section.vue";
 import { HeartIcon } from "@heroicons/vue/24/outline";
 import { ChatBubbleLeftEllipsisIcon } from "@heroicons/vue/24/outline";
+import { onIntersect } from "../composables/on-intersect.composable";
+import Parallaxy from "@lucien144/vue3-parallaxy";
+
 /**REACTIVE STATES */
-const rollItems = [
-  "Deposit",
+const rollItems = ref([
+  "Deposit1",
   "Investment",
   "Earnings",
-  "Savings",
-  "Deposit",
+  "Savings1",
+  "Deposit2",
   "Investment",
   "Earnings",
-  "Savings",
-  "Deposit",
+  "Savings2",
+  "Deposit3",
   "Investment",
   "Earnings",
-  "Savings",
-  "Deposit",
+  "Savings3",
+  "Deposit4",
   "Invesment",
   "Earnings",
-  "Sav",
-];
-const featureData = [
+  "Savings4",
+]);
+const featureData = ref([
   {
     featureHead: "Safe and easy access to USD",
     featureDescription:
@@ -46,8 +49,37 @@ const featureData = [
     featureDescription:
       "Weltio offers fractional shares, meaning you can buy just part of a share if you're not in a position to pay for a full one",
   },
-];
+]);
 
+const overviewTagsRef = ref([
+  { imgSrc: "ov5", description: "It only takes 5 minutes!" },
+  {
+    imgSrc: "ov4",
+    description: " No minimums and no fees when you trade shares or ETFs",
+  },
+  { imgSrc: "ov3", description: " 10,000+ financial products to choose from" },
+  { imgSrc: "ov2", description: " Your money within minutes" },
+  {
+    imgSrc: "ov1",
+    description: " A user-friendly interface for all knowledge levels",
+  },
+]);
+
+const positions = ref([
+  {
+    name: "graph-coin",
+    start: {
+      percent: 9,
+      x: 0,
+      y: 0,
+    },
+    end: {
+      percent: -60,
+      x: 0,
+      y: 0,
+    },
+  },
+]);
 const overviewItems = [
   { imgSrc: "ov5", description: "It only takes 5 minutes!" },
   {
@@ -61,6 +93,32 @@ const overviewItems = [
     description: " A user-friendly interface for all knowledge levels",
   },
 ];
+
+const observer = ref({});
+const overViewTagsRef = ref({});
+
+const onEnter = () => {
+  document.body.style.setProperty("--body-background", '#252234');
+  document.documentElement.classList.add('dark')
+  console.log("entered");
+};
+
+const onExit = () => {
+  document.body.style.setProperty("--body-background", '#f7f8f2');
+  document.documentElement.classList.remove('dark')
+  console.log("exited");
+};
+// When the component is mounted, start observing
+onMounted(() => {
+  observer.value = onIntersect(overviewTagsRef.value, onEnter, onExit, false, {
+    threshold: 0.8,
+  });
+});
+
+// When the component is removed, disconnect the observer (clean-up step)
+onUnmounted(() => {
+  observer.value.disconnect();
+});
 </script>
 <template>
   <div>
@@ -77,7 +135,7 @@ const overviewItems = [
             <div id="col-left" class="lg:w-[50%]">
               <div
                 id="hero-header"
-                class="md:mx-auto md:max-w-[480px] lg:max-w-none lg:m-0"
+                class="hero-slide-in md:mx-auto md:max-w-[480px] lg:max-w-none lg:m-0"
               >
                 <h1
                   class="leading-[120%] text-[33.6px] md:leading-[140%] md:text-[52.8px] xl:leading-[122%] xl:text-[60px]"
@@ -90,7 +148,7 @@ const overviewItems = [
               </div>
               <div
                 id="hero-text"
-                class="opacity-90 leading-[140%] text-[18px] pt-[15px] md:leading-[164%] md:text-[22px] md:text-center md:mx-auto md:max-w-[410px] lg:m-0 lg::pt-[20px] lg:text-left xl:pt-[24px]"
+                class="hero-slide-in opacity-90 leading-[140%] text-[18px] pt-[15px] md:leading-[164%] md:text-[22px] md:text-center md:mx-auto md:max-w-[410px] lg:m-0 lg::pt-[20px] lg:text-left xl:pt-[24px]"
               >
                 <p class="">
                   Want to expand your reach? Get access to American and crypto
@@ -99,7 +157,7 @@ const overviewItems = [
               </div>
               <div
                 id="hero-action"
-                class="flex justify-center lg:justify-start mt-[30px] xl:mt-[44px]"
+                class="hero-slide-in flex justify-center lg:justify-start mt-[30px] xl:mt-[44px]"
               >
                 <action-button :action-label="'App Store'"></action-button>
                 <action-button
@@ -111,11 +169,13 @@ const overviewItems = [
                 id="hero-figure"
                 class="hidden lg:absolute lg:bottom-0 lg:block lg:max-w-[221px] lg:left-[35%] xl:max-w-[207px]"
               >
-                <img
-                  class="w-full"
-                  src="../../assets/images/hero-6.png"
-                  alt=""
-                />
+                <Parallaxy :speed="100" class="">
+                  <img
+                    class="w-full"
+                    src="../../assets/images/hero-6.png"
+                    alt=""
+                  />
+                </Parallaxy>
               </div>
             </div>
             <div id="col-right" class="lg:w-[50%] xl:pl-[30px] 2xl:pl-0">
@@ -125,7 +185,7 @@ const overviewItems = [
               >
                 <div
                   id="hero-demo-1"
-                  class="relative w-[162px] h-[248px] shrink-0 bg-[#262333] overflow-hidden md:w-[245px] md:h-[374px] lg:w-[227px] lg:h-[348px] xl:w-[245px] xl:h-[374px] flex items-center justify-center lg:-mt-[52px] xl:-mt-[67px] rounded-full pointer-events-none shadow-2xl"
+                  class="hero-scale-in relative w-[162px] h-[248px] shrink-0 bg-[#262333] overflow-hidden md:w-[245px] md:h-[374px] lg:w-[227px] lg:h-[348px] xl:w-[245px] xl:h-[374px] flex items-center justify-center lg:-mt-[52px] xl:-mt-[67px] rounded-full pointer-events-none shadow-2xl"
                 >
                   <video
                     autoplay
@@ -137,7 +197,7 @@ const overviewItems = [
                 </div>
                 <div
                   id="hero-demo-2"
-                  class="relative w-[162px] h-[248px] shrink-0 bg-[#262333] overflow-hidden md:w-[245px] md:h-[374px] lg:w-[227px] lg:h-[348px] xl:w-[245px] xl:h-[374px] mt-[44px] md:mt-[85px] lg:mt-[15px] rounded-full pointer-events-none shadow-2xl"
+                  class="hero-scale-in relative w-[162px] h-[248px] shrink-0 bg-[#262333] overflow-hidden md:w-[245px] md:h-[374px] lg:w-[227px] lg:h-[348px] xl:w-[245px] xl:h-[374px] mt-[44px] md:mt-[85px] lg:mt-[15px] rounded-full pointer-events-none shadow-2xl"
                 >
                   <video
                     autoplay
@@ -154,13 +214,19 @@ const overviewItems = [
       </div>
     </div>
     <section id="roll">
-      <div id="rol-content" class="pt-[60px] pb-[100px] md:pb-[120px]">
-        <div id="rol-items" class="flex items-center">
+      <div
+        id="rol-content"
+        class="rotate-[-3deg] pt-[60px] pb-[100px] md:pb-[120px]"
+      >
+        <div
+          id="rol-items"
+          class="scrolling-list flex items-center flex-nowrap overflow-hidden"
+        >
           <span
             :key="index"
             v-for="(rollItem, index) in rollItems"
             id="roll-item"
-            class="pt-[9px] pb-[11px] px-[16px] shrink-0 text-[17px] text-center bg-[#e7e7fd] rounded-full md:pt-[13px] md:pb-[16px] md:px-[24px] md:text-[25px] font-semibold text-[#0b1e5b]/90"
+            class="pt-[9px] pb-[11px] px-[16px] shrink-0 inline-block text-[17px] text-center bg-[#e7e7fd] rounded-full md:pt-[13px] md:pb-[16px] md:px-[24px] md:text-[25px] font-semibold text-[#0b1e5b]/90"
           >
             {{ rollItem }}
           </span>
@@ -171,6 +237,7 @@ const overviewItems = [
       <div id="feature-content" class="pb-[60px]">
         <div id="feature-sections" class="relative h-full">
           <feature-section
+          class="sticky top-[40px]"
             :feature-head="featureData[0].featureHead"
             :feature-description="featureData[0].featureDescription"
           >
@@ -217,27 +284,33 @@ const overviewItems = [
               >
                 <div
                   id="card-2"
-                  class="bg-[#f7f8f2] rounded-2xl shadow-md min-w-[105px] pt-[5px] pr-[9px] pb-[11px] pl-[7px]"
+                  class="bg-[#f7f8f2] rounded-2xl shadow-md min-w-[105px] pt-[5px] pr-[9px] pb-[11px] pl-[7px] md:pt-[6px] md:pr-[10px] md:pb-[12px] md:pl-[8px] md:min-w-[116px] xl:pt-[7px] xl:pr-[12px] xl:pb-[14px] xl:pl-[10px] xl:min-w-[138px]"
                 >
-                  <div id="card-icon" class="ml-[79px] mb-5">
+                  <div
+                    id="card-icon"
+                    class="max-w-[17px] mb-[17px ml-auto md:mb-[20px] md:max-w-[19px] xl:mb-[23px] xl:max-w-[23px]"
+                  >
                     <img
                       src="https://weltio.com/wp-content/themes/weltio/assets/img/home/card/1.png"
                       srcset="
                         https://weltio.com/wp-content/themes/weltio/assets/img/home/card/1@2x.png 2x
                       "
                       loading="eager"
-                      class="min-w-[19px]"
+                      class="w-full"
                       alt=""
                     />
                   </div>
-                  <div id="card-logo" class="">
+                  <div
+                    id="card-logo"
+                    class="max-w-[51px] md:max-w-[57px] xl:max-w-[67px]"
+                  >
                     <img
                       src="https://weltio.com/wp-content/themes/weltio/assets/img/home/card/2.png"
                       srcset="
                         https://weltio.com/wp-content/themes/weltio/assets/img/home/card/2@2x.png 2x
                       "
                       loading="eager"
-                      class="w-[57px]"
+                      class="w-full"
                       alt=""
                     />
                   </div>
@@ -255,6 +328,7 @@ const overviewItems = [
             </template>
           </feature-section>
           <feature-section
+          class="sticky top-[50px]"
             :unique-feature="true"
             :feature-head="featureData[1].featureHead"
             :feature-description="featureData[1].featureDescription"
@@ -303,31 +377,39 @@ const overviewItems = [
               >
                 <div
                   id="card-2"
-                  class="flex items-center gap-10 py-1 px-3 bg-[#262333] w-[190px] min-w-[150px] rounded-2xl shadow-lg relative lg:-left-[75px] xl:-left-[25px] left-[16%] -top-[18px]"
+                  class="bg-[#262333] rounded-3xl flex items-center justify-between py-[8px] px-[15px] min-w-[156px] xl:min-w-[184px] xl:py-[9px] xl:px-[16px]"
                 >
                   <div
-                    id="card-subtitle"
-                    class="relative uppercase text-[8px] text-[#f7f8f2]"
+                    id="col-left card-name"
+                    class="relative font-semibold uppercase text-[9px] text-[#f7f8f2] tracking-[0.01em] xl:text-[11px]"
                   >
                     Stock
                   </div>
-                  <div id="card-graph" class="min-w-5 shrink-0">
-                    <img
-                      src="https://weltio.com/wp-content/themes/weltio/assets/img/home/card/3.png"
-                      srcset="
-                        https://weltio.com/wp-content/themes/weltio/assets/img/home/card/3@2x.png 2x
-                      "
-                      loading="eager"
-                      alt=""
-                      class="min-w-5"
-                    />
-                  </div>
-                  <div
-                    id="card-nums"
-                    class="flex flex-col font-bold mb-1 text-[9px]"
-                  >
-                    <span class="text-[#f7f8f2]">+$48.5</span>
-                    <span class="text-[#aecd5d]"> +0.4%</span>
+                  <div id="col-right" class="flex items-center">
+                    <div
+                      id="card-graph"
+                      class="min-w-[20px] mr-[21px] xl:max-w-[23px] xl:mr-[26px]"
+                    >
+                      <img
+                        src="https://weltio.com/wp-content/themes/weltio/assets/img/home/card/3.png"
+                        srcset="
+                          https://weltio.com/wp-content/themes/weltio/assets/img/home/card/3@2x.png 2x
+                        "
+                        loading="eager"
+                        alt=""
+                        class="w-full"
+                      />
+                    </div>
+                    <div id="card-nums" class="">
+                      <div class="text-[#f7f8f2] text-[8px] xl:text-[9px]">
+                        +$48.5
+                      </div>
+                      <div
+                        class="text-[#aecd5d] text-[8px] xl:text-[9px] mt-[1px]"
+                      >
+                        +0.4%
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -343,6 +425,7 @@ const overviewItems = [
             </template>
           </feature-section>
           <feature-section
+          class="sticky top-[60px]"
             :feature-head="featureData[2].featureHead"
             :feature-description="featureData[2].featureDescription"
           >
@@ -358,7 +441,7 @@ const overviewItems = [
                   >
                     <div
                       id="card-item"
-                      class="flex flex-col bg-[#f7f8f2] rounded-lg shadow-md relative odd:-left-5 w-[54px] h-[37px] p-[5px] md:w-[82px] md:h-[58px]  md:py-[7px] md:px-[8px] xl:w-[100px] xl:h-[70px] xl:pt-[9px] xl:pr-[12px] xl:pb-[8px] xl:pl-[10px] "
+                      class="flex flex-col bg-[#f7f8f2] rounded-lg shadow-md relative odd:-left-5 w-[54px] h-[37px] p-[5px] md:w-[82px] md:h-[58px] md:py-[7px] md:px-[8px] xl:w-[100px] xl:h-[70px] xl:pt-[9px] xl:pr-[12px] xl:pb-[8px] xl:pl-[10px]"
                       :key="index"
                       v-for="(cardItem, index) in [
                         { subTitle: 'ETF', stat1: '+1.79', stat2: '+1.42%' },
@@ -371,14 +454,17 @@ const overviewItems = [
                         { subTitle: 'Crypto', stat1: '+2.88', stat2: '+0.37%' },
                       ]"
                     >
-                      <div id="card-subtitle" class="mb-[1px] text-[4px] tracking-[0.06em] leading-[157%] uppercase md:text-[5px] xl:mb-[3px] xl:text-[8px]">
+                      <div
+                        id="card-subtitle"
+                        class="mb-[1px] text-[4px] tracking-[0.06em] leading-[157%] uppercase md:text-[5px] xl:mb-[3px] xl:text-[8px]"
+                      >
                         {{ cardItem.subTitle }}
                       </div>
-                      <div
-                        id="card-stats"
-                        class="font-bold ml-auto"
-                      >
-                        <div id="card-stat" class="text-[9px] text-right md:text-[13px] xl:text-[16px]">
+                      <div id="card-stats" class="font-bold ml-auto">
+                        <div
+                          id="card-stat"
+                          class="text-[9px] text-right md:text-[13px] xl:text-[16px]"
+                        >
                           {{ cardItem.stat1 }}
                         </div>
                         <div
@@ -389,66 +475,6 @@ const overviewItems = [
                         </div>
                       </div>
                     </div>
-                    <!-- <div
-                      id="card-item"
-                      class="bg-white py-3 px-[13px] h-[78px] rounded-2xl shadow-lg"
-                    >
-                      <div id="card-subtitle" class="uppercase text-[8px]">
-                        Stock
-                      </div>
-                      <div
-                        id="card-stats"
-                        class="font-bold text-lg lg:ml-[32px] ml-[21px]"
-                      >
-                        <div id="card-stat" class="text-[16px]">+3.51</div>
-                        <div
-                          id="card-stat"
-                          class="text-[11px] text-[#aecd5d] leading-3"
-                        >
-                          +1.35%
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      id="card-item"
-                      class="bg-white py-3 px-[13px] h-[78px] rounded-2xl shadow-lg relative -left-5"
-                    >
-                      <div id="card-subtitle" class="uppercase text-[8px]">
-                        crypto
-                      </div>
-                      <div
-                        id="card-stats"
-                        class="font-bold text-lg lg:ml-[32px] ml-[21px]"
-                      >
-                        <div id="card-stat" class="text-[16px]">+0.24</div>
-                        <div
-                          id="card-stat"
-                          class="text-[11px] text-[#aecd5d] leading-3"
-                        >
-                          +0.17%
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      id="card-item"
-                      class="bg-white py-3 px-[13px] h-[78px] rounded-2xl shadow-lg"
-                    >
-                      <div id="card-subtitle" class="uppercase text-[8px]">
-                        savings
-                      </div>
-                      <div
-                        id="card-stats"
-                        class="font-bold text-lg lg:ml-[32px] ml-[21px]"
-                      >
-                        <div id="card-stat" class="text-[16px]">+2.88</div>
-                        <div
-                          id="card-stat"
-                          class="text-[11px] text-[#aecd5d] leading-3"
-                        >
-                          +0.37%
-                        </div>
-                      </div>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -464,16 +490,32 @@ const overviewItems = [
                 >
                   <div id="card-head" class="flex justify-between font-bold">
                     <div id="col-left">
-                      <div id="card-name" class="text-[9px] tracking-[0.01em] xl:text-[11px]">EFT</div>
+                      <div
+                        id="card-name"
+                        class="text-[9px] tracking-[0.01em] xl:text-[11px]"
+                      >
+                        EFT
+                      </div>
                     </div>
                     <div id="col-right">
-                      <div id="card-stat" class="text-[9px] md:text-[13px] xl:text-[16px]">$0.078</div>
-                      <div id="card-stat" class="text-[6px] md:text-[9px] xl:text-[11px] text-[#aecd5d]">
+                      <div
+                        id="card-stat"
+                        class="text-[9px] md:text-[13px] xl:text-[16px]"
+                      >
+                        $0.078
+                      </div>
+                      <div
+                        id="card-stat"
+                        class="text-[6px] md:text-[9px] xl:text-[11px] text-[#aecd5d]"
+                      >
                         +$0.003
                       </div>
                     </div>
                   </div>
-                  <div id="card-graph" class="max-w-[87px] mt-[11px] mb-[14px] md:max-w-[99px] md:mt-[12px] md:mb-[15px]  xl:max-w-[131px] xl:mt-[17px] xl:mb-[21px]">
+                  <div
+                    id="card-graph"
+                    class="max-w-[87px] mt-[11px] mb-[14px] md:max-w-[99px] md:mt-[12px] md:mb-[15px] xl:max-w-[131px] xl:mt-[17px] xl:mb-[21px]"
+                  >
                     <img
                       src="../../assets/images/4@2x.png"
                       loading="eager"
@@ -508,7 +550,7 @@ const overviewItems = [
         <div class="container px-5 md:px-[100px] xl:px-[120px]">
           <div
             id="overview-header"
-            class="mb-[40px] md:mb-[60px] nd:mx-auto lg:mb-[50px] lg:pl-[80px] lg:mx-0 xl:mb-[80px]"
+            class="mb-[40px] md:mb-[60px] nd:mx-auto lg:mb-[50px] lg:pl-[80px] lg:mx-0 xl:mb-[80px] transition duration-700 dark:text-slate-100"
           >
             <h1
               class="text-[50px] leading-[120%] md:text-[80px] md:leading-[100%] lg:text-[100px] xl:text-[140px]"
@@ -557,7 +599,7 @@ const overviewItems = [
               <div id="col-right" class="flex flex-col">
                 <div
                   id="overview-description"
-                  class="text-center text-[16px] leading-[140%] md:max-w-[355px] md:text-[18px] md:leading-[172%] lg:text-left opacity-70 font-semibold xl:max-w-[390px] xl:text-[20px]"
+                  class="text-center text-[16px] leading-[140%] md:max-w-[355px] md:text-[18px] md:leading-[172%] lg:text-left opacity-70 font-semibold xl:max-w-[390px] xl:text-[20px] transition duration-700 dark:text-slate-100"
                 >
                   <p>
                     By joining Weltio, you're joining millions of investors
@@ -578,6 +620,7 @@ const overviewItems = [
         </div>
         <div id="overview-col" class="mt-[120px] w-full">
           <div
+          ref="overviewTagsRef"
             id="overview-tags"
             class="flex gap-1 mb-[55px] container px-5 md:px-[100px] xl:px-[120px]"
           >
@@ -610,7 +653,7 @@ const overviewItems = [
               </div>
               <div
                 id="overview-title"
-                class="font-semibold mt-5 pr-[20px] text-[22px] leading-[123%] opacity-70 w-[280px] xl:w-[330px] xl:mt-[25px]"
+                class="font-semibold mt-5 pr-[20px] text-[22px] leading-[123%] opacity-70 w-[280px] xl:w-[330px] xl:mt-[25px] transition duration-700 dark:text-slate-100"
               >
                 {{ item.description }}
               </div>
@@ -627,7 +670,7 @@ const overviewItems = [
         >
           <div
             id="screenshot-text"
-            class="max-w-[280px] md:w-[60%] md:max-w-[100%] md:ml-auto md:pr-[40px] lg:w-[50%] lg:pr-[100px] xl:pr-[130px]"
+            class="max-w-[280px] md:w-[60%] md:max-w-[100%] md:ml-auto md:pr-[40px] lg:w-[50%] lg:pr-[100px] xl:pr-[130px] transition duration-700 dark:text-slate-100"
           >
             <div id="screenshot-header" class="mb-[30px] md:mb-[25px]">
               <h2
@@ -658,61 +701,79 @@ const overviewItems = [
               />
             </div>
             <div id="screenshot-tickets">
+              <Parallaxy :speed="100" class="absolute right-[73px] -bottom-[50px] md:right-[210px] md:bottom-auto md:-top-[27px] lg:right-[200px] lg:top-[97px] xl:right-[289px] xl:top-[138px]">
               <div
                 id="screesnhot-ticket-1"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] absolute right-[73px] -bottom-[50px] md:right-[210px] md:bottom-auto md:-top-[27px] lg:right-[200px] lg:top-[97px] xl:right-[289px] xl:top-[138px] rounded-full shadow-2xl bg-white"
+                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
               >
-                <img
-                  src="../../assets/images/2-1.png"
-                  loading="eager"
-                  alt=""
-                  class="w-full object-cover"
-                />
+                
+                  <img
+                    src="../../assets/images/2-1.png"
+                    loading="eager"
+                    alt=""
+                    class="w-full object-cover"
+                  />
+                
               </div>
+            </Parallaxy>
+              <Parallaxy :speed="100" class="absolute -top-[10px] left-[83px] md:-top-[122px] md:bottom-auto md:-left-[15px] lg:-top-[70px] lg:left-[212px] xl:-top-[41px] xl:left-[265px]">
               <div
                 id="screesnhot-ticket-2"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] absolute -top-[10px] left-[83px] md:-top-[122px] md:bottom-auto md:-left-[15px] lg:-top-[70px] lg:left-[212px] xl:-top-[41px] xl:left-[265px] rounded-full shadow-2xl bg-white"
+                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
               >
-                <img
-                  src="../../assets/images/5-1.png"
-                  loading="eager"
-                  alt=""
-                  class="w-full object-cover"
-                />
+                
+                  <img
+                    src="../../assets/images/5-1.png"
+                    loading="eager"
+                    alt=""
+                    class="w-full object-cover"
+                  />
+                
               </div>
+            </Parallaxy>
+              <Parallaxy :speed="100" class="absolute -top-[255px] right-[25px] md:-top-[365px] md:right-auto md:left-[112px] lg:-top-[220px] wlg:-top-[320px] lg:left-[290px] xl:-top-[40%] wxl:-top-[60%] xl:left-[380px]">
               <div
                 id="screesnhot-ticket-3"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] absolute -top-[255px] right-[25px] md:-top-[365px] md:right-auto md:left-[112px] lg:-top-[320px] lg:left-[290px] xl:-top-[60%] xl:left-[380px] rounded-full shadow-2xl bg-white"
+                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
               >
-                <img
-                  src="../../assets/images/4-1.png"
-                  loading="eager"
-                  alt=""
-                  class="w-full object-cover"
-                />
+                
+                  <img
+                    src="../../assets/images/4-1.png"
+                    loading="eager"
+                    alt=""
+                    class="w-full object-cover"
+                  />
+               
               </div>
+            </Parallaxy>
+              <Parallaxy :speed="100" class="absolute left-[20%] bottom-[2%]">
               <div
                 id="screesnhot-ticket-4"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] absolute left-[20%] bottom-[2%] rounded-full shadow-2xl bg-white"
+                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
               >
-                <img
-                  src="../../assets/images/6-1.png"
-                  loading="eager"
-                  alt=""
-                  class="w-full object-cover"
-                />
+
+                  <img
+                    src="../../assets/images/6-1.png"
+                    loading="eager"
+                    alt=""
+                    class="w-full object-cover"
+                  />
+
               </div>
-              <div
-                id="screesnhot-ticket-5"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] absolute right-[20%] bottom-[45%] lg:bottom-[10%] rounded-full shadow-2xl bg-white"
-              >
-                <img
-                  src="../../assets/images/7.png"
-                  loading="eager"
-                  alt=""
-                  class="w-full object-cover"
-                />
-              </div>
+            </Parallaxy>
+              <Parallaxy :speed="100" class="absolute right-[20%] bottom-[45%] lg:bottom-[10%]">
+                <div
+                  id="screesnhot-ticket-5"
+                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
+                >
+                  <img
+                    src="../../assets/images/7.png"
+                    loading="eager"
+                    alt=""
+                    class="w-full object-cover"
+                  />
+                </div>
+              </Parallaxy>
             </div>
           </div>
         </div>
@@ -750,7 +811,7 @@ const overviewItems = [
             </div>
             <div
               id="offer-stat"
-              class="shadow-lg flex absolute right-0 -top-[10%] font-semibold opacity-80 w-[120px] h-[90px] pl-[11px] pr-[4px] rounded-[7px] md:top-0 md:w-[167px] md:h-[147px] md:pl-[22px] md:pr[11px] md:rounded-[13px] lg:w-[202px] lg:h-[178px] lg:pl-[26px] lg:pr-[12px] lg:rounded-[16px] xl:w-[220px] xl:h-[190px] text-[8px] md:text-[9px] lg:text-[12px] xl:text-[14px]"
+              class="shadow-lg overflow-hidden flex absolute right-0 -top-[10%] font-semibold opacity-80 w-[120px] h-[90px] pl-[11px] pr-[4px] rounded-[7px] md:top-0 md:w-[167px] md:h-[147px] md:pl-[22px] md:pr[11px] md:rounded-[13px] lg:w-[202px] lg:h-[178px] lg:pl-[26px] lg:pr-[12px] lg:rounded-[16px] xl:w-[220px] xl:h-[190px] text-[8px] md:text-[9px] lg:text-[12px] xl:text-[14px]"
             >
               <div id="offer-stat-legend" class="flex flex-col justify-center">
                 <div
@@ -794,7 +855,7 @@ const overviewItems = [
               >
                 <img
                   src="../../assets/images/rocket.png"
-                  class="w-full h-full object-cover"
+                  class="rocket-dance w-full h-full object-cover"
                 />
               </div>
               <div
@@ -1085,4 +1146,61 @@ const overviewItems = [
 </template>
 
 <style scoped>
+.hero-slide-in {
+  animation: heroSlideIn 0.4s ease-out 1;
+}
+
+@keyframes heroSlideIn {
+  0% {
+    transform: translate(0px, 40px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.hero-scale-in {
+  animation: heroScaleIn 1s ease-out;
+}
+
+@keyframes heroScaleIn {
+  0% {
+    transform: scale(0.5, 0.5);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+.scrolling-list {
+  white-space: nowrap;
+  overflow: hidden;
+  animation: scroll 5s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-40%);
+  }
+}
+
+.rocket-dance {
+  animation: rocketDance 3s ease-in-out infinite;
+  animation-fill-mode: both;
+}
+
+@keyframes rocketDance {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(0px, -40px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
 </style>
