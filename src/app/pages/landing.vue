@@ -97,15 +97,19 @@ const overviewItems = [
 const observer = ref({});
 const overViewTagsRef = ref({});
 
+function getSrc(path) {
+  return new URL(`../../assets/images/${path}`, import.meta.url).href;
+}
+
 const onEnter = () => {
-  document.body.style.setProperty("--body-background", '#252234');
-  document.documentElement.classList.add('dark')
+  document.body.style.setProperty("--body-background", "#252234");
+  document.documentElement.classList.add("dark");
   console.log("entered");
 };
 
 const onExit = () => {
-  document.body.style.setProperty("--body-background", '#f7f8f2');
-  document.documentElement.classList.remove('dark')
+  document.body.style.setProperty("--body-background", "#f7f8f2");
+  document.documentElement.classList.remove("dark");
   console.log("exited");
 };
 // When the component is mounted, start observing
@@ -237,7 +241,7 @@ onUnmounted(() => {
       <div id="feature-content" class="pb-[60px]">
         <div id="feature-sections" class="relative h-full">
           <feature-section
-          class="sticky top-[40px]"
+            class="sticky top-[40px]"
             :feature-head="featureData[0].featureHead"
             :feature-description="featureData[0].featureDescription"
           >
@@ -328,7 +332,7 @@ onUnmounted(() => {
             </template>
           </feature-section>
           <feature-section
-          class="sticky top-[50px]"
+            class="sticky top-[50px]"
             :unique-feature="true"
             :feature-head="featureData[1].featureHead"
             :feature-description="featureData[1].featureDescription"
@@ -425,7 +429,7 @@ onUnmounted(() => {
             </template>
           </feature-section>
           <feature-section
-          class="sticky top-[60px]"
+            class="sticky top-[60px]"
             :feature-head="featureData[2].featureHead"
             :feature-description="featureData[2].featureDescription"
           >
@@ -620,7 +624,7 @@ onUnmounted(() => {
         </div>
         <div id="overview-col" class="mt-[120px] w-full">
           <div
-          ref="overviewTagsRef"
+            ref="overviewTagsRef"
             id="overview-tags"
             class="flex gap-1 mb-[55px] container px-5 md:px-[100px] xl:px-[120px]"
           >
@@ -645,11 +649,7 @@ onUnmounted(() => {
                 id="overview-img"
                 class="border rounded-3xl w-[280px] h-[345px] md:w-[280px] md:h-[248px] xl:w-[330px] xl:h-[293px]"
               >
-                <img
-                  :src="`src/assets/images/${item.imgSrc}.png`"
-                  loading="eager"
-                  alt=""
-                />
+                <img :src="getSrc(`${item.imgSrc}.png`)" loading="eager" alt="" />
               </div>
               <div
                 id="overview-title"
@@ -701,70 +701,74 @@ onUnmounted(() => {
               />
             </div>
             <div id="screenshot-tickets">
-              <Parallaxy :speed="100" class="absolute right-[73px] -bottom-[50px] md:right-[210px] md:bottom-auto md:-top-[27px] lg:right-[200px] lg:top-[97px] xl:right-[289px] xl:top-[138px]">
-              <div
-                id="screesnhot-ticket-1"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
+              <Parallaxy
+                :speed="100"
+                class="absolute right-[73px] -bottom-[50px] md:right-[210px] md:bottom-auto md:-top-[27px] lg:right-[200px] lg:top-[97px] xl:right-[289px] xl:top-[138px]"
               >
-                
+                <div
+                  id="screesnhot-ticket-1"
+                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] rounded-full shadow-2xl bg-white"
+                >
                   <img
                     src="../../assets/images/2-1.png"
                     loading="eager"
                     alt=""
                     class="w-full object-cover"
                   />
-                
-              </div>
-            </Parallaxy>
-              <Parallaxy :speed="100" class="absolute -top-[10px] left-[83px] md:-top-[122px] md:bottom-auto md:-left-[15px] lg:-top-[70px] lg:left-[212px] xl:-top-[41px] xl:left-[265px]">
-              <div
-                id="screesnhot-ticket-2"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
+                </div>
+              </Parallaxy>
+              <Parallaxy
+                :speed="100"
+                class="absolute -top-[10px] left-[83px] md:-top-[122px] md:bottom-auto md:-left-[15px] lg:-top-[70px] lg:left-[212px] xl:-top-[41px] xl:left-[265px]"
               >
-                
+                <div
+                  id="screesnhot-ticket-2"
+                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] rounded-full shadow-2xl bg-white"
+                >
                   <img
                     src="../../assets/images/5-1.png"
                     loading="eager"
                     alt=""
                     class="w-full object-cover"
                   />
-                
-              </div>
-            </Parallaxy>
-              <Parallaxy :speed="100" class="absolute -top-[255px] right-[25px] md:-top-[365px] md:right-auto md:left-[112px] lg:-top-[220px] wlg:-top-[320px] lg:left-[290px] xl:-top-[40%] wxl:-top-[60%] xl:left-[380px]">
-              <div
-                id="screesnhot-ticket-3"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
+                </div>
+              </Parallaxy>
+              <Parallaxy
+                :speed="100"
+                class="absolute -top-[255px] right-[25px] md:-top-[365px] md:right-auto md:left-[112px] lg:-top-[220px] wlg:-top-[320px] lg:left-[290px] xl:-top-[40%] wxl:-top-[60%] xl:left-[380px]"
               >
-                
+                <div
+                  id="screesnhot-ticket-3"
+                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] rounded-full shadow-2xl bg-white"
+                >
                   <img
                     src="../../assets/images/4-1.png"
                     loading="eager"
                     alt=""
                     class="w-full object-cover"
                   />
-               
-              </div>
-            </Parallaxy>
+                </div>
+              </Parallaxy>
               <Parallaxy :speed="100" class="absolute left-[20%] bottom-[2%]">
-              <div
-                id="screesnhot-ticket-4"
-                class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
-              >
-
+                <div
+                  id="screesnhot-ticket-4"
+                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] rounded-full shadow-2xl bg-white"
+                >
                   <img
                     src="../../assets/images/6-1.png"
                     loading="eager"
                     alt=""
                     class="w-full object-cover"
                   />
-
-              </div>
-            </Parallaxy>
-              <Parallaxy :speed="100" class="absolute right-[20%] bottom-[45%] lg:bottom-[10%]">
+                </div>
+              </Parallaxy>
+              <Parallaxy
+                :speed="100"
+                class="absolute right-[20%] bottom-[45%] lg:bottom-[10%]"
+              >
                 <div
                   id="screesnhot-ticket-5"
-                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px]  rounded-full shadow-2xl bg-white"
+                  class="w-[39px] h-[52px] md:w-[62px] md:h-[82px] md:rounded-[49px] rounded-full shadow-2xl bg-white"
                 >
                   <img
                     src="../../assets/images/7.png"
@@ -1160,7 +1164,7 @@ onUnmounted(() => {
 }
 
 .hero-scale-in {
-  animation: heroScaleIn 1s ease-out;
+  animation: heroScaleIn 0.5s ease-out;
 }
 
 @keyframes heroScaleIn {
