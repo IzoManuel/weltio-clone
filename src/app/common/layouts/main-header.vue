@@ -81,7 +81,7 @@ onMounted(() => {
               id="navbar-logo"
               class="inline-block relative -top-[2px] w-[70px] h-[22px] align-middle md:w-[80px] md:h-[23px] md:mr-[50px] xl:w-[90px] xl:h-[26px]"
             >
-              <weltio-logo></weltio-logo>
+              <weltio-logo class="transition duration-700 dark:fill-slate-100"></weltio-logo>
             </div>
             <div
               id="navbar-navs"
@@ -97,7 +97,7 @@ onMounted(() => {
                 class="block transition-opacity hover:opacity-50 duration-300 mb-[40px] text-[32px] tracking-[0.02em] overflow-hidden md:inline md:px-[25px] md:m-0 md:text-[16px] align-bottom"
               >
                 <span
-                  class="relative transition-[top] duration-500 -z-10 md:z-0 md:top-0"
+                  class="relative transition-[top] duration-500 -z-10 md:z-0 md:top-0 dark:text-slate-100"
                   :class="[menuBarState ? 'top-0' : 'top-[40px]']"
                   style="cursor: pointer"
                   >About</span
@@ -109,7 +109,7 @@ onMounted(() => {
                 style="cursor: pointer"
               >
                 <span
-                  class="relative transition-[top] duration-500 -z-10 md:z-0 md:top-0"
+                  class="relative transition-[top] duration-500 -z-10 md:z-0 md:top-0 dark:text-slate-100"
                   :class="[menuBarState ? 'top-0' : 'top-[40px]']"
                   style="cursor: pointer"
                   >Contact</span
@@ -118,7 +118,7 @@ onMounted(() => {
             </div>
             <div
               id="navbar-lang"
-              class="relative opacity-0 md:opacity-100 inline-block align-middle max-w-[200px] pl-[45px] text-[16px] lg:pl-[60px]"
+              class="relative opacity-0 md:opacity-100 inline-block align-middle max-w-[200px] pl-[45px] text-[16px] lg:pl-[60px] dark:text-slate-100"
               :class="[
                 menuBarState ? 'transition opacity-100 duration-300' : 'transition opacity-0 duration-300',
               ]"
