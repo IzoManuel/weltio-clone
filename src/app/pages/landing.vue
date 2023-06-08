@@ -17,22 +17,22 @@ import MainLayout from "../common/layouts/main-layout.vue";
 
 /**REACTIVE STATES */
 const rollItems = ref([
-  "Deposit1",
+  "Deposit",
   "Investment",
   "Earnings",
-  "Savings1",
-  "Deposit2",
+  "Savings",
+  "Deposit",
   "Investment",
   "Earnings",
-  "Savings2",
-  "Deposit3",
+  "Savings",
+  "Deposit",
   "Investment",
   "Earnings",
-  "Savings3",
-  "Deposit4",
+  "Savings",
+  "Deposit",
   "Invesment",
   "Earnings",
-  "Savings4",
+  "Savings",
 ]);
 const featureData = ref([
   {
@@ -224,17 +224,14 @@ onUnmounted(() => {
         <section id="roll">
           <div
             id="rol-content"
-            class="rotate-[-3deg] pt-[60px] pb-[100px] md:pb-[120px]"
+            class="relative rotate-[-3deg] pt-[60px] pb-[100px] md:pb-[120px] overflow-x-hidden"
           >
-            <div
-              id="rol-items"
-              class="scrolling-list flex items-center flex-nowrap overflow-hidden"
-            >
+            <div id="rol-items" class="scrolling-list absolute top-0">
               <span
                 :key="index"
                 v-for="(rollItem, index) in rollItems"
                 id="roll-item"
-                class="pt-[9px] pb-[11px] px-[16px] shrink-0 inline-block text-[17px] text-center bg-[#e7e7fd] rounded-full md:pt-[13px] md:pb-[16px] md:px-[24px] md:text-[25px] font-semibold text-[#0b1e5b]/90"
+                class="text-[#0b1e5b]/90 pt-[9px] pb-[11px] px-[16px] shrink-0 inline-block text-[17px] text-center bg-[#e7e7fd] rounded-full md:pt-[13px] md:pb-[16px] md:px-[24px] md:text-[25px] lg:pt-[16px] lg:px-[28px] lg:pl-[28px] lg:text-[29px] xl:pt-[21px] xl:px-[36px] xl:pl-[36px] xl:text-[40px]"
               >
                 {{ rollItem }}
               </span>
@@ -1225,7 +1222,8 @@ onUnmounted(() => {
 .scrolling-list {
   white-space: nowrap;
   overflow: hidden;
-  animation: scroll 5s linear infinite;
+  animation: scroll 20s linear infinite;
+
 }
 
 @keyframes scroll {
@@ -1233,7 +1231,7 @@ onUnmounted(() => {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-40%);
+    transform: translateX(-50%);
   }
 }
 
