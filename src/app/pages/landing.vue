@@ -224,17 +224,22 @@ onUnmounted(() => {
         <section id="roll">
           <div
             id="rol-content"
-            class="relative rotate-[-3deg] pt-[60px] pb-[100px] md:pb-[120px] overflow-x-hidden"
+            class="relative pt-[60px] pb-[100px] md:pb-[120px] overflow-hidden"
           >
-            <div id="rol-items" class="scrolling-list absolute top-0">
-              <span
-                :key="index"
-                v-for="(rollItem, index) in rollItems"
-                id="roll-item"
-                class="text-[#0b1e5b]/90 pt-[9px] pb-[11px] px-[16px] shrink-0 inline-block text-[17px] text-center bg-[#e7e7fd] rounded-full md:pt-[13px] md:pb-[16px] md:px-[24px] md:text-[25px] lg:pt-[16px] lg:px-[28px] lg:pl-[28px] lg:text-[29px] xl:pt-[21px] xl:px-[36px] xl:pl-[36px] xl:text-[40px]"
+            <div id="test-roll" class="-rotate-[3deg] w-full h-full absolute top-[40px]">
+              <div
+                id="rol-items"
+                class="scrolling-list whitespace-nowrap overflow-x-hidden absolute top-0"
               >
-                {{ rollItem }}
-              </span>
+                <span
+                  :key="index"
+                  v-for="(rollItem, index) in rollItems"
+                  id="roll-item"
+                  class="text-[#0b1e5b]/90 pt-[9px] pb-[11px] px-[16px] inline-block text-[17px] text-center bg-[#e7e7fd] rounded-full md:pt-[13px] md:pb-[16px] md:px-[24px] md:text-[25px] lg:pt-[16px] lg:px-[28px] lg:pl-[28px] lg:text-[29px] xl:pt-[21px] xl:px-[36px] xl:pl-[36px] xl:text-[40px]"
+                >
+                  {{ rollItem }}
+                </span>
+              </div>
             </div>
           </div>
         </section>
@@ -1221,9 +1226,8 @@ onUnmounted(() => {
 
 .scrolling-list {
   white-space: nowrap;
-  overflow: hidden;
-  animation: scroll 20s linear infinite;
 
+  animation: scroll 20s linear infinite;
 }
 
 @keyframes scroll {
