@@ -39,7 +39,7 @@ const onExit = () => {
 /**FUNCTIONS */
 function handleScroll() {
   const elements = document.querySelectorAll("#feature-section");
- console.log(`Scroll handling ${elements.length}`)
+  console.log(`Scroll handling ${elements.length}`)
   for (let index = 0; index < 2; index++) {
     const element = elements[index];
     const element2 = elements[index + 1];
@@ -62,6 +62,7 @@ function handleScroll() {
       }
     } else {
       element.style.opacity = 1;
+      //element.style.opacity += ((scrollPosition - rect.top) / rect.height) * 0.2;
       // element.style.transformOrigin='initial';
       // element.style.transform=`scale(1)`;
     }
